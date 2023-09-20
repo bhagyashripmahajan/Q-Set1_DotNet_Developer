@@ -1,0 +1,40 @@
+//Databse and table created.
+create database Products;
+
+CREATE TABLE Product (
+    ProductId INT PRIMARY KEY,
+    ProductName NVARCHAR(255) ,
+    Size CHAR,
+    Price decimal(10,2),
+    MfgDate DATE ,
+    Category NVARCHAR(100)
+);
+
+
+//Required stored procedure according to aassement.
+
+USE [Products]
+GO
+/****** Object:  StoredProcedure [dbo].[spSearchPage]    Script Date: 19-09-2023 20:55:44 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+ALTER Procedure [dbo].[spSearchPage]
+@ProductId int=null ,
+@ProductName nvarchar(255)=null,
+@Size char=null,
+@MinPrice decimal=null,
+@MaxPrice decimal=null,
+@MfgDate date=null,
+@Category nvarchar(100)=null
+As 
+Begin
+ Select * from Product where
+ (ProductId = @ProductId or @ProductId Is null) And
+ (ProductName = @ProductName or @ProductName Is null) And
+ (Size = @Size or @Size Is Null) And
+ ((Price >= @MinPrice and Price <= @MaxPrice) or (@MinPrice Is Null and @MaxPrice Is Null)) And
+ (MfgDate = @MfgDate or @MfgDate Is null) And
+ (Category = @Category or @Category Is null)
+ End 
